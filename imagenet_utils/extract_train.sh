@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TRAIN_DIR=data/imagenet/train
+TRAIN_DIR=../data/imagenet/train
 
 mkdir -p ${TRAIN_DIR}
 mv ILSVRC2012_img_train.tar ${TRAIN_DIR}

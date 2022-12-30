@@ -14,6 +14,8 @@ from datetime import datetime
 
 from tensorboardX import SummaryWriter
 
+from resnet import ResnetYolo
+
 
 # Check if GPU devices are available.
 use_gpu = torch.cuda.is_available()
@@ -22,7 +24,7 @@ print('CUDA current_device: {}'.format(torch.cuda.current_device()))
 print('CUDA device_count: {}'.format(torch.cuda.device_count()))
 
 # Path to data dir.
-image_dir = 'data/VOC_allimgs/'
+image_dir = '../YOLO/data/data/images'
 
 # Path to label files.
 train_label = ('data/voc2007.txt', 'data/voc2012.txt')
@@ -64,21 +66,22 @@ def get_lr(optimizer):
         return param_group['lr']
 
 # Load pre-trained darknet.
-darknet = DarkNet(conv_only=True, bn=True, init_weight=True)
-darknet.features = torch.nn.DataParallel(darknet.features)
+# darknet = DarkNet(conv_only=True, bn=True, init_weight=True)
+# darknet.features = torch.nn.DataParallel(darknet.features)
 
-src_state_dict = torch.load(checkpoint_path)['state_dict']
-dst_state_dict = darknet.state_dict()
+# src_state_dict = torch.load(checkpoint_path)['state_dict']
+# dst_state_dict = darknet.state_dict()
 
-for k in dst_state_dict.keys():
-    print('Loading weight of', k)
-    dst_state_dict[k] = src_state_dict[k]
-darknet.load_state_dict(dst_state_dict)
+# for k in dst_state_dict.keys():
+#     print('Loading weight of', k)
+#     dst_state_dict[k] = src_state_dict[k]
+# darknet.load_state_dict(dst_state_dict)
 
 # Load YOLO model.
-yolo = YOLOv1(darknet.features)
-yolo.conv_layers = torch.nn.DataParallel(yolo.conv_layers)
-yolo.cuda()
+# yolo = YOLOv1(darknet.features)
+# yolo.conv_layers = torch.nn.DataParallel(yolo.conv_layers)
+# yolo.cuda()
+yolo = ResnetYolo().cuda()
 
 # Setup loss and optimizer.
 criterion = Loss(feature_size=yolo.feature_size)

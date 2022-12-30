@@ -75,16 +75,16 @@ class VOCDataset(Dataset):
             img, boxes, labels = self.random_crop(img, boxes, labels)
 
         # For debug.
-        debug_dir = 'tmp/voc_tta'
-        os.makedirs(debug_dir, exist_ok=True)
-        img_show = img.copy()
-        box_show = boxes.numpy().reshape(-1)
-        n = len(box_show) // 4
-        for b in range(n):
-            pt1 = (int(box_show[4*b + 0]), int(box_show[4*b + 1]))
-            pt2 = (int(box_show[4*b + 2]), int(box_show[4*b + 3]))
-            cv2.rectangle(img_show, pt1=pt1, pt2=pt2, color=(0,255,0), thickness=1)
-        cv2.imwrite(os.path.join(debug_dir, 'test_{}.jpg'.format(idx)), img_show)
+        # debug_dir = 'tmp/voc_tta'
+        # os.makedirs(debug_dir, exist_ok=True)
+        # img_show = img.copy()
+        # box_show = boxes.numpy().reshape(-1)
+        # n = len(box_show) // 4
+        # for b in range(n):
+        #     pt1 = (int(box_show[4*b + 0]), int(box_show[4*b + 1]))
+        #     pt2 = (int(box_show[4*b + 2]), int(box_show[4*b + 3]))
+        #     cv2.rectangle(img_show, pt1=pt1, pt2=pt2, color=(0,255,0), thickness=1)
+        # cv2.imwrite(os.path.join(debug_dir, 'test_{}.jpg'.format(idx)), img_show)
 
         h, w, _ = img.shape
         boxes /= torch.Tensor([[w, h, w, h]]).expand_as(boxes) # normalize (x1, y1, x2, y2) w.r.t. image width/height.

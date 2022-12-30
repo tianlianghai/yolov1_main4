@@ -153,3 +153,13 @@ class Loss(nn.Module):
         loss = loss / float(batch_size)
 
         return loss
+
+def test():
+    samples= torch.rand(16, 7, 7, 30)
+    targets = torch.rand(samples.shape)
+    criterion = Loss()
+    loss = criterion(samples,targets)
+    print(loss)
+
+if __name__ == "__main__":
+    test()
